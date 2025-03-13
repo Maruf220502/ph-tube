@@ -6,6 +6,13 @@
     <title>PH-TUBE</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+      .active{
+        background-color: #FF1F3D;
+        color: white;
+      }
+    </style>
 </head>
 <body>
     <header class="container mx-auto pt-4">
@@ -21,15 +28,23 @@
             </div>
           </div>
     </header>
+
     <!-- 2nd navbar starts -->
      <div>
         <nav id="categories-containner" class="flex justify-center gap-5 pt-8">
-            <button class="btn bg-[#FF1F3D]">All</button>
+            <button onclick="loadVideos()" class="btn bg-[#FF1F3D] text-white">All</button>
         </nav>
      </div>
 
-     <section id="video-contsinner" class="container mx-auto grid grid-cols-4 gap-5 mt-10">
 
+     <!-- video part starts -->
+     <section id="video-contsinner" class="container mx-auto grid md:grid-cols-4 gap-5 mt-10">
+      
+
+      <div class="flex flex-col col-span-full justify-center items-center gap-4 py-5">
+        <img class="w-32" src="assets/Icon.png" alt="">
+        <h1 class="text-3xl font-bold text-center">Oops!! Sorry, There is no<br> content here</h1>
+      </div>
      </section>
 
     <script src="scripts/scripts.js"></script>
