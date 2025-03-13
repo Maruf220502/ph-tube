@@ -12,8 +12,8 @@ function loadCategories(){
     .then(data => displayCategories(data.categories))
 }
 // all videos 
-function loadVideos (){
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+function loadVideos (searchInput = ""){
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchInput}`)
     .then( res => res.json())
     .then( data => {
         removeActiveClass()
@@ -148,7 +148,7 @@ const displayVideos = (videos) => {
             <h2 class="text-xl font-semibold mb-1">${video.title}</h2>
             <div class="flex gap-2 mb-1">
               <h3 class="text-sm font-semibold text-gray-400">${video.authors[0].profile_name}</h3>
-              <img src="assets/verified.png" alt="">
+              ${video.authors[0].verified == true ? `<img src="assets/verified.png" alt="">` : `` }
             </div>
             <p class="text-sm font-semibold text-gray-400">${video.others.views} views</p>
           </div>
@@ -159,5 +159,11 @@ const displayVideos = (videos) => {
         videoContainner.append(videoDiv);
     });
 }
+
+document.getElementById("search-input").addEventListener("keyup",(e)=>{
+  e.preventDefault();
+  const input = e.target.value
+  loadVideos(input);
+})
 
 loadCategories()
