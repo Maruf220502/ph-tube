@@ -1,3 +1,10 @@
+// remove active button
+function removeActiveClass (){
+    const activeButtons = document.getElementsByClassName("active");
+    for(let btn of activeButtons){
+        btn.classList.remove("active");
+    }
+} 
 // button
 function loadCategories(){
     fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
@@ -8,7 +15,41 @@ function loadCategories(){
 function loadVideos (){
     fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
     .then( res => res.json())
-    .then( data => displayVideos(data.videos))
+    .then( data => {
+        removeActiveClass()
+        document.getElementById("btn-all").classList.add("active")
+        displayVideos(data.videos)
+    })
+}
+
+// video details
+const loadVideoDetails = (videoID) => {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoID}`
+
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayVideoDetails(data.video))
+}
+
+// details show
+const displayVideoDetails = (video) =>{
+   document.getElementById("video_details").showModal()
+
+   const detailsContainner = document.getElementById("details_containner")
+   detailsContainner.innerHTML =`
+   <div class="card bg-base-100 image-full shadow-sm">
+  <figure>
+    <img
+      src="${video.thumbnail}"
+      alt="video" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">${video.title} Title</h2>
+    <p>${video.description}</p>
+  </div>
+</div>
+   `
+
 }
 
 // single button
@@ -18,6 +59,7 @@ function loadVideos (){
     fetch(url)
     .then(res => res.json())
     .then(data =>{
+        removeActiveClass()
         const clickButton = document.getElementById(`btn-${id}`)
         clickButton.classList.add("active")
         displayVideos(data.category)
@@ -111,6 +153,7 @@ const displayVideos = (videos) => {
             <p class="text-sm font-semibold text-gray-400">${video.others.views} views</p>
           </div>
         </div>
+        <button onclick="loadVideoDetails('${video.video_id}')" class="btn btn-block">Show Details</button>
       </div>
         `
         videoContainner.append(videoDiv);
